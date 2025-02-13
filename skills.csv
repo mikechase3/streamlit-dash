@@ -1,0 +1,25 @@
+Skill,Category,Level
+AI,General,30
+Cloud Environments,General,60
+Cybersecurity,General,20
+Data Structures & Algorithms,General,60
+Databases,General,20
+Documentation,General,90
+Data Science,General,40
+Mobile Development,General,15
+Electrical Engineering,General,50
+Environment/OS Setups,General,80
+Game Development,General,60
+Graphics Programming,General,25
+Python,Languages,90
+Java,Languages,90
+Bash,Languages,60
+C,Languages,60
+HTML/CSS/JS,Languages,60
+C#,Languages,60
+R,Languages,20
+Racket,Languages,20
+Regular Expressions,General,60
+Git,General,60
+Web3,General,20
+Cryptographic Algorithms,General,20
