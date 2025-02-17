@@ -1,42 +1,60 @@
 import streamlit as st
 import pandas as pd
-import matplotlib.pyplot as plt
 import helpers
+from typing import Dict, List, Tuple, Union, Any  # Import necessary types
 
-# Load the skills data
-skills_df = pd.read_csv("skills.csv")
 
 # Streamlit app title
-st.title("My Computer Science Journey")
+st.title("Mike Chase's Computer Science Journey")
 
-# Sample skills data (replace with your actual data)
-languages_data = {
-    'Language': ['Python', 'Java', 'C', 'Golang', 'JavaScript', 'CSS', 'HTML'],
-    'Hours': [1000, 1000, 10, 10, 10, 10, 100]
-}
-languages_df = pd.DataFrame(languages_data)
-st.pyplot(helpers.create_pie_chart(languages_df))
+# Load the lang data
+lang_df = pd.read_csv("data/language-focus-distribution.csv", dtype={"Language": str, "Hours": int})
 
-# Display the raw data
-st.subheader("Language Focus Distribution (Hours)")
-st.dataframe(skills_df)
+languages_pie_chart = helpers.create_pie_chart(lang_df)
+st.pyplot(languages_pie_chart)
+st.dataframe(lang_df)
+
+# Load the timeline data
+timeline_df = pd.read_csv("data/timeline_data.csv", dtype={"Year": str, "Month": str, "Title": str, "Description": str})
+st.subheader("Timeline of Events")
+
+def create_timeline_entry(year, month, title, description): # Include month
+    col1, col2, col3 = st.columns([1, 2, 5])  # Adjust column ratios as needed
+
+    with col1:
+        st.write(f"**{year}**")  # Year in bold
+
+    with col2:
+        if month: # Check if month exists
+            st.write(f"**{month}**")
+        else:
+            st.write("")
+
+    with col3:
+        st.write(f"**{title}**")  # Title in bold
+        st.write(description)  # Description
 
 
+for _, row in timeline_df.iterrows():
+    create_timeline_entry(row["Year"], row["Month"], row["Title"], row["Description"])
 
+# Add a horizontal line to separate entries (optional)
+st.markdown("---")
 
-# Group skills by category and calculate average level
-average_skills = skills_df.groupby("Category")["Level"].mean().reset_index()
-
-# Create a bar chart
-fig, ax = plt.subplots()
-ax.bar(average_skills["Category"], average_skills["Level"])
-plt.xticks(rotation=45)
-plt.ylabel("Average Level")
-plt.title("Average Skill Level by Category")
-
-# Display the chart in Streamlit
-st.pyplot(fig)
-
-# Add a timeline (you'll need to add your actual timeline data)
-st.subheader("Timeline")
-st.write("Timeline of my learning journey and projects...")
+# DEBUGGING ONLY
+# def main():
+#     st.title("My App")
+#
+#     lang_df = pd.read_csv("data/language-focus-distribution.csv", dtype={"Language": str, "Hours": int})
+#
+#     st.write("Here's the DataFrame:")
+#     st.write(lang_df)
+#
+#     languages_pie_chart = helpers.create_pie_chart(lang_df)
+#     st.pyplot(languages_pie_chart)
+#     st.dataframe(lang_df)
+#
+# if __name__ == "__main__":
+#     st.set_page_config(initial_sidebar_state="expanded")
+#     st.session_state.ran = True
+#     main()
