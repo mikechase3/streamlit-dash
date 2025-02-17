@@ -7,5 +7,3 @@ Notes, mostly for myself, can be found [here](https://notebook.mchase.me/career/
 
 Here's sort-of what I'm going for:
 ![img.png](Docs/claywebb-example.png)
-
-(President's day test)
