@@ -1,45 +1,38 @@
 import streamlit as st
 import pandas as pd
+from matplotlib import pyplot as plt
 import helpers
 from typing import Dict, List, Tuple, Union, Any  # Import necessary types
 
+# Type Aliases for Clarity
+LanguageDataFrame = pd.DataFrame
+TimelineDataFrame = pd.DataFrame
+MatplotlibFigure = plt.Figure
 
-# Streamlit app title
-st.title("Mike Chase's Computer Science Journey")
+def main() -> None:
+    """Main function to run the Streamlit app."""
 
-# Load the lang data
-lang_df = pd.read_csv("data/language-focus-distribution.csv", dtype={"Language": str, "Hours": int})
+    st.title("Mike Chase's Computer Science Journey")
 
-languages_pie_chart = helpers.create_pie_chart(lang_df)
-st.pyplot(languages_pie_chart)
-st.dataframe(lang_df)
+    # Load and display language data
+    lang_df: LanguageDataFrame = pd.read_csv("data/language-focus-distribution.csv", dtype={"Language": str, "Hours": int})
+    languages_pie_chart: MatplotlibFigure = helpers.create_pie_chart(lang_df)
+    st.pyplot(languages_pie_chart)
+    st.dataframe(lang_df)
 
-# Load the timeline data
-timeline_df = pd.read_csv("data/timeline_data.csv", dtype={"Year": str, "Month": str, "Title": str, "Description": str})
-st.subheader("Timeline of Events")
+    # Load and display timeline data
+    timeline_df: TimelineDataFrame = pd.read_csv("data/timeline_data.csv", dtype={"Year": str, "Month": str, "Title": str, "Description": str})
 
-def create_timeline_entry(year, month, title, description): # Include month
-    col1, col2, col3 = st.columns([1, 2, 5])  # Adjust column ratios as needed
+    st.subheader("Timeline of Events")
 
-    with col1:
-        st.write(f"**{year}**")  # Year in bold
+    for _, row in timeline_df.iterrows():
+        helpers.create_timeline_entry(row["Year"], row["Month"], row["Title"], row["Description"])
 
-    with col2:
-        if month: # Check if month exists
-            st.write(f"**{month}**")
-        else:
-            st.write("")
-
-    with col3:
-        st.write(f"**{title}**")  # Title in bold
-        st.write(description)  # Description
+    st.markdown("---")  # Separator
 
 
-for _, row in timeline_df.iterrows():
-    create_timeline_entry(row["Year"], row["Month"], row["Title"], row["Description"])
-
-# Add a horizontal line to separate entries (optional)
-st.markdown("---")
+if __name__ == "__main__":
+    main()  # Call the main function
 
 # DEBUGGING ONLY
 # def main():
